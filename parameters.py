@@ -1,0 +1,1 @@
+MAX_GRID_SIZE = -1
