@@ -8,14 +8,8 @@ def iterate_grid(action_chain):
 			i = 0
 			while i < n and action_chain[i]():
 				i += 1
-			if not state.allow_teleport and col == state.grid_size - 1:
-				drone.go_left(state.grid_size - 1)
-			else:
-				drone.go_right()
-		if not state.allow_teleport and row == state.grid_size - 1:
-			drone.go_up(state.grid_size - 1)
-		else:
-			drone.go_down()
+			drone.go_right()
+		drone.go_down()
 
 def harvest_plant_all(harvest_action, plant_action):
 	iterate_grid((harvest_action, plant_action))

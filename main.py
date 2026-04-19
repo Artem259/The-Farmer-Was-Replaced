@@ -5,7 +5,6 @@ import state
 
 quick_print("--------------------")
 quick_print("grid_size =", state.grid_size)
-quick_print("allow_teleport =", state.allow_teleport)
 quick_print("--------------------")
 
 items_quantity = [
@@ -17,8 +16,6 @@ priorities = [1, 0, 2]
 cycles = 1
 
 clear()
-drone.go_up(state.grid_size - 1)
-
 cycle = cycles
 while True:
 	if cycle == cycles:
@@ -33,5 +30,6 @@ while True:
 		strategy = mapper.entity_to_strategy(entity)
 		quick_print(strategy.__name__)
 
+	drone.goto(0, state.grid_size - 1)
 	strategy.run()
 	cycle += 1
