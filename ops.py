@@ -1,4 +1,3 @@
-import eyes
 import mapper
 import state
 
@@ -8,7 +7,7 @@ def safe_harvest():
 		if result:
 			state.after_action_hook()
 		return result
-	return False
+	return get_entity_type() == None
 
 def _plant_grass():
 	return plant(Entities.Grass)
@@ -23,6 +22,11 @@ def _plant_carrot():
 	if get_ground_type() != Grounds.Soil:
 		till()
 	return plant(Entities.Carrot)
+
+def _plant_pumpkin():
+	if get_ground_type() != Grounds.Soil:
+		till()
+	return plant(Entities.Pumpkin)
 
 def safe_plant(entity):
 	plant_action = mapper.entity_to_plant_action(entity)

@@ -7,6 +7,7 @@ entities = (
 	Entities.Bush,
 	Entities.Tree,
 	Entities.Carrot,
+	Entities.Pumpkin,
 )
 iterations = 2
 

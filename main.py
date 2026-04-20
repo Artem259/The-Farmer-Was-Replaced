@@ -1,6 +1,5 @@
 import drone
 import mapper
-import ops
 import state
 
 quick_print("--------------------")
@@ -8,14 +7,14 @@ quick_print("grid_size =", state.grid_size)
 quick_print("--------------------")
 
 items_quantity = [
-	(Items.Hay, 2000),
-	(Items.Wood, 2000),
-	(Items.Carrot, None),
+	(Items.Hay, 10000),
+	(Items.Wood, 10000),
+	(Items.Carrot, 10000),
+	(Items.Pumpkin, None),
 ]
-priorities = [1, 0, 2]
+priorities = [1, 0, 2, 3]
 cycles = 1
 
-clear()
 cycle = cycles
 while True:
 	if cycle == cycles:
