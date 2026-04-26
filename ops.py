@@ -3,10 +3,7 @@ import state
 
 def safe_harvest():
 	if can_harvest():
-		result = harvest()
-		if result:
-			state.after_action_hook()
-		return result
+		return harvest()
 	return get_entity_type() == None
 
 def _plant_grass():
@@ -30,7 +27,4 @@ def _plant_pumpkin():
 
 def safe_plant(entity):
 	plant_action = mapper.entity_to_plant_action(entity)
-	result = plant_action()
-	if result:
-		state.after_action_hook()
-	return result
+	return plant_action()

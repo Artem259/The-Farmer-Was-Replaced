@@ -22,8 +22,8 @@ def entity_to_strategy(entity):
 		import tree_strategy
 		return tree_strategy
 	if entity == Entities.Carrot:
-		import carrot_strategy
-		return carrot_strategy
+		import polyculture_strategy
+		return polyculture_strategy
 	if entity == Entities.Pumpkin:
 		import pumpkin_strategy
 		return pumpkin_strategy

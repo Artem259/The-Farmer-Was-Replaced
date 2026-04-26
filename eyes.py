@@ -15,12 +15,12 @@ def any_adjacent_coords(x, y):
 def drone_adjacent_coords():
 	return any_adjacent_coords(get_pos_x(), get_pos_y())
 
-def any_adjacent_entities(x, y):
+def any_adjacent_values(grid, x, y):
 	adjacent_cells = any_adjacent_coords(x, y)
-	adjacent_entities = []
+	adjacent_values = []
 	for x, y in adjacent_cells:
-		adjacent_entities.append(state.grid_entities[x][y])
-	return adjacent_entities
+		adjacent_values.append(grid[x][y])
+	return adjacent_values
 
-def drone_adjacent_entities():
-	return any_adjacent_entities(get_pos_x(), get_pos_y())
+def drone_adjacent_values(grid):
+	return any_adjacent_values(grid, get_pos_x(), get_pos_y())
