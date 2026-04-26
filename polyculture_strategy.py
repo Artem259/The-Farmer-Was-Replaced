@@ -6,6 +6,7 @@ import tools
 
 base_entity = Entities.Carrot
 fallback_entity = Entities.Grass
+search_limit = state.grid_size
 
 def run():
 	drone.goto_center()
@@ -13,7 +14,7 @@ def run():
 	grid = tools.generate_matrix(state.grid_size, None)
 	def find_closest_empty(start_x, start_y):
 		dirs = ((1, -1), (-1, -1), (-1, 1), (1, 1))
-		for offset in range(1, state.grid_size):
+		for offset in range(1, search_limit):
 			x = start_x
 			y = start_y + offset
 			for dir in dirs:
