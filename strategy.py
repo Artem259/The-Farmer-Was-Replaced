@@ -2,6 +2,7 @@ import drone
 import state
 
 def iterate_grid(action_chain):
+	drone.goto_upper_left()
 	n = len(action_chain)
 	for row in range(state.grid_size):
 		for col in range(state.grid_size):

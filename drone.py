@@ -45,3 +45,9 @@ def go_right(distance=1):
 
 def go_left(distance=1):
 	relative_goto(-distance, 0)
+
+def goto_upper_left():
+	goto(0, state.grid_size - 1)
+
+def goto_center():
+	goto(state.grid_size // 2, state.grid_size // 2)

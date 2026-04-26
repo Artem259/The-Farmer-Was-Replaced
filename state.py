@@ -1,16 +1,12 @@
 import parameters
+import tools
 
 if parameters.MAX_GRID_SIZE == -1:
 	grid_size = get_world_size()
 else:
 	grid_size = min(parameters.MAX_GRID_SIZE, get_world_size())
 
-grid_entities = []
-for _ in range(grid_size):
-	row = []
-	for _ in range(grid_size):
-		row.append(Entities.Grass)
-	grid_entities.append(row)
+grid_entities = tools.generate_matrix(grid_size, Entities.Grass)
 
 def after_action_hook():
 	x = get_pos_x()

@@ -15,6 +15,7 @@ items_quantity = [
 priorities = [1, 0, 2, 3]
 cycles = 1
 
+clear()
 cycle = cycles
 while True:
 	if cycle == cycles:
@@ -29,6 +30,5 @@ while True:
 		strategy = mapper.entity_to_strategy(entity)
 		quick_print(strategy.__name__)
 
-	drone.goto(0, state.grid_size - 1)
 	strategy.run()
 	cycle += 1

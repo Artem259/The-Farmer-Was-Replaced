@@ -8,7 +8,9 @@ if parameters.PUMPKIN_MAX_SIZE == -1:
 else:
 	pumpkin_size = min(parameters.PUMPKIN_MAX_SIZE, state.grid_size)
 
-def run():	
+def run():
+	drone.goto_upper_left()
+
 	queue = []
 	for y in range(get_pos_y(), get_pos_y() - pumpkin_size, -1):
 		for x in range(get_pos_x(), get_pos_x() + pumpkin_size):
