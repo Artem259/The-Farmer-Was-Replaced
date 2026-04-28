@@ -10,9 +10,10 @@ items_quantity = [
 	(Items.Hay, 10000),
 	(Items.Wood, 10000),
 	(Items.Carrot, 10000),
-	(Items.Pumpkin, None),
+	(Items.Pumpkin, 10000),
+	(Items.Cactus, None),
 ]
-priorities = [1, 0, 2, 3]
+priorities = [1, 0, 2, 3, 4]
 cycles = 1
 
 clear()
