@@ -14,7 +14,7 @@ while True:
 	if cycle == cycles:
 		cycle = 0
 		entity = None
-		for p in parameters.PRIORITIES:
+		for p in range(len(parameters.ITEMS)):
 			item, quantity = parameters.ITEMS[p]
 			if quantity == None or num_items(item) < quantity:
 				entity = mapper.item_to_entity(item)

@@ -11,6 +11,8 @@ def item_to_entity(item):
 		return Entities.Pumpkin
 	if item == Items.Cactus:
 		return Entities.Cactus
+	if item == Items.Power:
+		return Entities.Sunflower
 	print("item_to_entity", 0 / 0)
 
 def entity_to_strategy(entity):
@@ -32,6 +34,9 @@ def entity_to_strategy(entity):
 	if entity == Entities.Cactus:
 		import cactus_strategy
 		return cactus_strategy
+	if entity == Entities.Sunflower:
+		import sunflower_strategy
+		return sunflower_strategy
 	print("entity_to_strategy", 0 / 0)
 
 def entity_to_plant_action(entity):
@@ -47,4 +52,6 @@ def entity_to_plant_action(entity):
 		return ops._plant_pumpkin
 	if entity == Entities.Cactus:
 		return ops._plant_cactus
+	if entity == Entities.Sunflower:
+		return ops._plant_sunflower
 	print("entity_to_plant_action", 0 / 0)

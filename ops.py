@@ -29,6 +29,11 @@ def _plant_cactus():
 		till()
 	return plant(Entities.Cactus)
 
+def _plant_sunflower():
+	if get_ground_type() != Grounds.Soil:
+		till()
+	return plant(Entities.Sunflower)
+
 def safe_plant(entity):
 	plant_action = mapper.entity_to_plant_action(entity)
 	return plant_action()

@@ -5,6 +5,7 @@ import tree_strategy
 import polyculture_strategy
 import pumpkin_strategy
 import cactus_strategy
+import sunflower_strategy
 
 strategies = (
 	grass_strategy,
@@ -14,6 +15,7 @@ strategies = (
 	polyculture_strategy,
 	pumpkin_strategy,
 	cactus_strategy,
+	sunflower_strategy,
 )
 iterations = 1
 

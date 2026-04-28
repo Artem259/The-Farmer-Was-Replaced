@@ -1,10 +1,10 @@
 MAX_GRID_SIZE = -1
 
-ITEMS = [
-	(Items.Hay,      10000),
-	(Items.Wood,     10000),
-	(Items.Carrot,   10000),
-	(Items.Pumpkin,  10000),
-	(Items.Cactus,    None),
-]
-PRIORITIES = [1, 0, 2, 3, 4]
+ITEMS = {
+	1: (Items.Hay,      10000),
+	0: (Items.Wood,     10000),
+	2: (Items.Carrot,   10000),
+	4: (Items.Pumpkin,  10000),
+	5: (Items.Cactus,    None),
+	3: (Items.Power,    10000),
+}
