@@ -7,6 +7,9 @@ import tools
 base_entity = Entities.Carrot
 fallback_entity = Entities.Grass
 search_limit = state.grid_size
+entities_limit_rate = 0.5
+
+grid_size = state.grid_size ** 2
 
 def run():
 	drone.goto_center()
@@ -50,6 +53,8 @@ def run():
 				)
 			):
 				break
+		if len(queue) > entities_limit_rate * grid_size:
+			break
 		coords = find_closest_empty(get_pos_x(), get_pos_y())
 		if coords == None:
 			break
