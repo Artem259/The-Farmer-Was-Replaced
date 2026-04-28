@@ -1,21 +1,25 @@
-import drone
-import mapper
-import state
+import grass_strategy
+import bush_strategy
+import carrot_strategy
+import tree_strategy
+import polyculture_strategy
+import pumpkin_strategy
+import cactus_strategy
 
-entities = (
-	Entities.Grass,
-	Entities.Bush,
-	Entities.Tree,
-	Entities.Carrot,
-	Entities.Pumpkin,
+strategies = (
+	grass_strategy,
+	bush_strategy,
+	carrot_strategy,
+	tree_strategy,
+	polyculture_strategy,
+	pumpkin_strategy,
+	cactus_strategy,
 )
-iterations = 2
+iterations = 1
 
 clear()
-for entity in entities:
+for strategy in strategies:
 	for iter in range(1, iterations + 1):
-		strategy = mapper.entity_to_strategy(entity)
-		drone.goto(0, state.grid_size - 1)
 		quick_print(strategy.__name__, iter, "/", iterations)
 		strategy.run()
 quick_print("Completed.")

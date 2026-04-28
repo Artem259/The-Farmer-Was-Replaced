@@ -16,7 +16,7 @@ def run():
 
 	def sort_line(go_forward, go_backward, get_pos, prev_dir, next_dir):
 		dist = state.grid_size - 1
-		while dist >= 2:
+		while dist >= 1:
 			flag = False
 			for _ in range(dist):
 				if measure() > measure(next_dir):

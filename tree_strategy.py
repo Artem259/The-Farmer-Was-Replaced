@@ -1,4 +1,3 @@
-import eyes
 import ops
 import strategy
 
@@ -6,8 +5,9 @@ placeholder = Entities.Grass
 
 def run():
 	def plant_action():
-		adjacent_entities = eyes.drone_adjacent_entities()
-		if Entities.Tree not in adjacent_entities:
+		x = get_pos_x()
+		y = get_pos_y()
+		if (x + y) % 2 == 0:
 			ops.safe_plant(Entities.Tree)
 		else:
 			ops.safe_plant(placeholder)
