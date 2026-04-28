@@ -2,7 +2,6 @@ import drone
 import ops
 import state
 import strategy
-import tools
 
 def run():
 	def harvest_action():
@@ -10,12 +9,8 @@ def run():
 			pass
 		return True
 
-	grid = tools.generate_matrix(state.grid_size, None)
 	def plant_action():
 		ops.safe_plant(Entities.Cactus)
-		x = get_pos_x()
-		y = get_pos_y()
-		grid[x][y] = measure()
 
 	strategy.iterate_grid((harvest_action, plant_action))
 

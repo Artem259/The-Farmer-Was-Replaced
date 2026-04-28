@@ -1,19 +1,11 @@
-import drone
 import mapper
+import parameters
 import state
 
 quick_print("--------------------")
 quick_print("grid_size =", state.grid_size)
 quick_print("--------------------")
 
-items_quantity = [
-	(Items.Hay, 10000),
-	(Items.Wood, 10000),
-	(Items.Carrot, 10000),
-	(Items.Pumpkin, 10000),
-	(Items.Cactus, None),
-]
-priorities = [1, 0, 2, 3, 4]
 cycles = 1
 
 clear()
@@ -22,9 +14,8 @@ while True:
 	if cycle == cycles:
 		cycle = 0
 		entity = None
-		for p in priorities:
-			item = items_quantity[p][0]
-			quantity = items_quantity[p][1]
+		for p in parameters.PRIORITIES:
+			item, quantity = parameters.ITEMS[p]
 			if quantity == None or num_items(item) < quantity:
 				entity = mapper.item_to_entity(item)
 				break

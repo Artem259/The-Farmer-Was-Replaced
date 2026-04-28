@@ -1,5 +1,4 @@
 import mapper
-import state
 
 def safe_harvest():
 	if can_harvest():

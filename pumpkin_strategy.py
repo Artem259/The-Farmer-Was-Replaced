@@ -1,12 +1,13 @@
 import drone
 import ops
-import parameters
 import state
 
-if parameters.PUMPKIN_MAX_SIZE == -1:
+pumpkin_max_size = -1
+
+if pumpkin_max_size == -1:
 	pumpkin_size = state.grid_size
 else:
-	pumpkin_size = min(parameters.PUMPKIN_MAX_SIZE, state.grid_size)
+	pumpkin_size = min(pumpkin_max_size, state.grid_size)
 
 def run():
 	drone.goto_upper_left()
