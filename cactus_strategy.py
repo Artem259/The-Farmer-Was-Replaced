@@ -15,29 +15,26 @@ def run():
 	strategy.iterate_grid((harvest_action, plant_action))
 
 	def sort_line(go_forward, go_backward, get_pos, prev_dir, next_dir):
-		dist = state.grid_size - 1
-		while dist >= 1:
-			flag = False
-			for _ in range(dist):
+		start = 0
+		end = state.grid_size - 1
+		while start < end:
+			last_swap = 0
+			for step in range(end - start):
 				if measure() > measure(next_dir):
 					swap(next_dir)
-					flag = True
+					last_swap = step
 				go_forward()
-			if not flag:
-				return
-			go_backward()
-			dist -= 1
+			end = start + last_swap
+			go_backward(get_pos() - end)
 
-			flag = False
-			for _ in range(dist):
+			last_swap = 0
+			for step in range(end - start):
 				if measure(prev_dir) > measure():
 					swap(prev_dir)
-					flag = True
+					last_swap = step
 				go_backward()
-			if not flag:
-				return
-			go_forward()
-			dist -= 1
+			start = end - last_swap
+			go_forward(start - get_pos())
 
 	for y in range(state.grid_size - 1, -1, -1):
 		drone.goto(0, y)

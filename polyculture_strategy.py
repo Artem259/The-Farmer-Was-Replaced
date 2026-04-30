@@ -7,7 +7,7 @@ import tools
 base_entity = Entities.Carrot
 fallback_entity = Entities.Grass
 search_limit = state.grid_size
-entities_limit_rate = 0.5
+entities_limit_rate = 0.2
 
 grid_size = state.grid_size ** 2
 
