@@ -9,17 +9,26 @@ quick_print("--------------------")
 cycles = 1
 
 clear()
+cached_quantities = {}
 cycle = cycles
 while True:
 	if cycle == cycles:
+		strategy = None
 		cycle = 0
-		entity = None
 		for p in range(len(parameters.ITEMS)):
 			item, quantity = parameters.ITEMS[p]
+			if quantity == -1:
+				item_strategy = mapper.item_to_strategy(item)
+				quantity = item_strategy.calc_target_quantity()
+				if item not in cached_quantities or cached_quantities[item] != quantity:
+					quick_print(item, "=>", quantity)
+					cached_quantities[item] = quantity
 			if quantity == None or num_items(item) < quantity:
-				entity = mapper.item_to_entity(item)
+				strategy = mapper.item_to_strategy(item)
 				break
-		strategy = mapper.entity_to_strategy(entity)
+		if strategy == None:
+			quick_print("Target item not found!")
+			break
 		quick_print(strategy.__name__)
 
 	strategy.run()

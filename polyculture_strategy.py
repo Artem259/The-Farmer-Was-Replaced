@@ -11,7 +11,7 @@ entities_limit_rate = 0.2
 
 grid_size = state.grid_size ** 2
 
-def run():
+def run(before_harvest_hook=None):
 	drone.goto_center()
 
 	grid = tools.generate_matrix(state.grid_size, None)
@@ -49,7 +49,7 @@ def run():
 				grid[x][y] != None or 
 				(
 					entity == Entities.Tree and 
-					Entities.Tree in eyes.any_adjacent_values(grid, x, y)
+					Entities.Tree in eyes.adjacent_values(grid, x, y)
 				)
 			):
 				break
@@ -62,5 +62,7 @@ def run():
 
 	for x, y in queue:
 		drone.goto(x, y)
+		if before_harvest_hook != None:
+			before_harvest_hook()
 		while not ops.safe_harvest():
 			pass
