@@ -1,16 +1,20 @@
 import drone
 import state
 
-def iterate_grid(action_chain):
-	drone.goto_upper_left()
+def iterate_grid(
+	action_chain, 
+	start_x=0, 
+	end_x=state.grid_size - 1, 
+	start_y=state.grid_size - 1, 
+	end_y=0
+):
 	n = len(action_chain)
-	for row in range(state.grid_size):
-		for col in range(state.grid_size):
+	for y in range(start_y, end_y - 1, -1):
+		for x in range(start_x, end_x + 1):
+			drone.goto(x, y)
 			i = 0
 			while i < n and action_chain[i]():
 				i += 1
-			drone.go_right()
-		drone.go_down()
 
 def harvest_plant_all(harvest_action, plant_action):
 	iterate_grid((harvest_action, plant_action))
