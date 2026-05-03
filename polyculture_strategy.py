@@ -12,8 +12,6 @@ entities_limit_rate = 0.1
 grid_size = state.grid_size ** 2
 
 def run(before_harvest_hook=None):
-	drone.goto_center()
-
 	grid = tools.generate_matrix(state.grid_size, None)
 	def find_closest_empty(start_x, start_y):
 		dirs = ((1, -1), (-1, -1), (-1, 1), (1, 1))
