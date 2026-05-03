@@ -1,11 +1,15 @@
 import state
 
-def generate_matrix(size, value):
+def generate_matrix(size, value, callable=False):
 	matrix = []
 	for _ in range(size):
 		row = []
 		for _ in range(size):
-			row.append(value)
+			if callable:
+				val = value()
+			else:
+				val = value
+			row.append(val)
 		matrix.append(row)
 	return matrix
 

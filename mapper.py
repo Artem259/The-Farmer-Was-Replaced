@@ -22,6 +22,9 @@ def item_to_strategy(item):
 	if item == Items.Weird_Substance:
 		import weird_subs_strategy
 		return weird_subs_strategy
+	if item == Items.Gold:
+		import maze_strategy
+		return maze_strategy
 	print("item_to_strategy", 0 / 0)
 
 def entity_to_plant_action(entity):

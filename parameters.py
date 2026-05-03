@@ -8,4 +8,5 @@ ITEMS = {
 	5: (Items.Cactus,            100000),
 	3: (Items.Power,              10000),
 	6: (Items.Weird_Substance,       -1),
+	7: (Items.Gold,                None),
 }
