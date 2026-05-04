@@ -28,16 +28,11 @@ def sort_line(go_forward, go_backward, get_pos, prev_dir, next_dir):
 def run_horizontal_worker(args):
 	y = args[0]
 
-	def harvest_action():
-		while not ops.safe_harvest():
-			pass
-		return True
-
 	def plant_action():
 		ops.safe_plant(Entities.Cactus)
 
 	strategy.iterate_grid(
-		(harvest_action, plant_action), 0, state.grid_size - 1, y, y
+		(ops.waitfor_safe_harvest, plant_action), 0, state.grid_size - 1, y, y
 	)
 
 	drone.goto(0, y)

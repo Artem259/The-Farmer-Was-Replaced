@@ -5,11 +5,11 @@ def iterate_grid(
 	action_chain, 
 	start_x=0, 
 	end_x=state.grid_size - 1, 
-	start_y=state.grid_size - 1, 
-	end_y=0
+	start_y=0, 
+	end_y=state.grid_size - 1
 ):
 	n = len(action_chain)
-	for y in range(start_y, end_y - 1, -1):
+	for y in range(end_y, start_y - 1, -1):
 		for x in range(start_x, end_x + 1):
 			drone.goto(x, y)
 			i = 0

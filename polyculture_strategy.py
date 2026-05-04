@@ -62,5 +62,4 @@ def run(before_harvest_hook=None):
 		drone.goto(x, y)
 		if before_harvest_hook != None:
 			before_harvest_hook()
-		while not ops.safe_harvest():
-			pass
+		ops.waitfor_safe_harvest()

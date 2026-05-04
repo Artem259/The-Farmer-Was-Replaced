@@ -2,9 +2,10 @@ import drone
 import ops
 import strategy
 import state
+import tools
 
-width = 4
-height = 8
+block_width = 4
+block_height = 8
 
 def run_worker(args):
 	start_x, end_x, start_y, end_y = args
@@ -29,12 +30,6 @@ def run_worker(args):
 		queue = new_queue
 
 def run():
-	args_list = []
-	for start_x in range(0, state.grid_size, width):
-		for start_y in range(0, state.grid_size, height):
-			end_x = min(start_x + width - 1, state.grid_size - 1)
-			end_y = min(start_y + height - 1, state.grid_size - 1)
-			args_list.append((start_x, end_x, start_y, end_y))
-
+	args_list = tools.generate_subgrids(state.grid_size, block_width, block_height)
 	strategy.run_multiworker(run_worker, args_list, True)
 	ops.safe_harvest()

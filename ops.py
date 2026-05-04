@@ -5,6 +5,11 @@ def safe_harvest():
 		return harvest()
 	return get_entity_type() == None
 
+def waitfor_safe_harvest():
+	while not safe_harvest():
+		pass
+	return True
+
 def _plant_grass():
 	return plant(Entities.Grass)
 

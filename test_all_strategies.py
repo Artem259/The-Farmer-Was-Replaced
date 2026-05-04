@@ -6,6 +6,8 @@ import polyculture_strategy
 import pumpkin_strategy
 import cactus_strategy
 import sunflower_strategy
+import weird_subs_strategy
+import maze_strategy
 
 strategies = (
 	grass_strategy,
@@ -16,6 +18,8 @@ strategies = (
 	pumpkin_strategy,
 	cactus_strategy,
 	sunflower_strategy,
+	weird_subs_strategy,
+	maze_strategy,
 )
 iterations = 1
 
