@@ -34,13 +34,19 @@ def join_workers(workers):
 		results.append(wait_for(worker))
 	return results
 
-def run_multiworker(run_function, args_list, use_this):
-	if use_this:
-		workers = spawn_workers(run_function, args_list[:-1])
-		this_result = run_function(args_list[-1])
+def run_multiworker(run_function, args_list, this_index=None):
+	if this_index != None:
+		other_args = []
+		for index in range(len(args_list)):
+			if index == this_index:
+				this_args = args_list[index]
+			else:
+				other_args.append(args_list[index])
+		workers = spawn_workers(run_function, other_args)
+		this_result = run_function(this_args)
 	else:
 		workers = spawn_workers(run_function, args_list)
 	results = join_workers(workers)
-	if use_this:
-		results.append(this_result)
+	if this_index != None:
+		results.insert(this_index, this_result)
 	return results

@@ -48,6 +48,6 @@ def run():
 	for coord in range(state.grid_size):
 		args_list.append((coord,))
 
-	strategy.run_multiworker(run_horizontal_worker, args_list, True)
-	strategy.run_multiworker(run_vertical_worker, args_list, True)
+	strategy.run_multiworker(run_horizontal_worker, args_list, 0)
+	strategy.run_multiworker(run_vertical_worker, args_list, 0)
 	ops.safe_harvest()

@@ -36,7 +36,7 @@ def run_harvest_worker(args):
 def run():
 	plant_args = tools.generate_subgrids(state.grid_size, block_width, block_height)
 
-	all_buckets = strategy.run_multiworker(run_plant_worker, plant_args, True)
+	all_buckets = strategy.run_multiworker(run_plant_worker, plant_args, 0)
 
 	for petals in range(max_petals - min_petals, -1, -1):
 		harvest_args = []
@@ -45,4 +45,4 @@ def run():
 			for cell in block_buckets[petals]:
 				harvest_args[-1][0].append(cell)
 		
-		strategy.run_multiworker(run_harvest_worker, harvest_args, True)
+		strategy.run_multiworker(run_harvest_worker, harvest_args, 0)

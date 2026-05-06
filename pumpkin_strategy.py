@@ -31,5 +31,5 @@ def run_worker(args):
 
 def run():
 	args_list = tools.generate_subgrids(state.grid_size, block_width, block_height)
-	strategy.run_multiworker(run_worker, args_list, True)
+	strategy.run_multiworker(run_worker, args_list, 0)
 	ops.safe_harvest()

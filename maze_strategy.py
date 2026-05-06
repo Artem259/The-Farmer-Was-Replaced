@@ -222,7 +222,7 @@ def run():
 	while True: 
 		for args in args_list:
 			args[3] = grid
-		results = strategy.run_multiworker(exploitation_traverse, args_list, True)
+		results = strategy.run_multiworker(exploitation_traverse, args_list, len(args_list) // 2)
 		for stop_flag, new_available_dirs in results:
 			if stop_flag:
 				return
