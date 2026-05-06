@@ -7,7 +7,7 @@ from weird_subs_strategy import calc_maze_quantity
 
 block_width = 4
 block_height = 8
-iteration_seconds = 120
+iteration_seconds = 60
 
 directions = ((0, 1, North), (1, 0, East), (0, -1, South), (-1, 0, West))
 
@@ -16,6 +16,13 @@ def generate_grid():
 		return [[], [False, False, False, False]]
 	grid = tools.generate_matrix(state.grid_size, generate_cell, True)
 	return grid
+
+def copy_grid(grid):
+	def copy_cell(x, y):
+		cell = grid[x][y]
+		return [cell[0][:], cell[1][:]]
+	copied_grid = tools.generate_matrix(state.grid_size, copy_cell, True)
+	return copied_grid
 
 def get_available_dirs():
 	available_dirs = []
@@ -32,9 +39,10 @@ def update_grid(x, y, dir_i, grid):
 		dir = directions[dir_i]
 		x = x + dir[0]
 		y = y + dir[1]
-		dir_i = (dir_i + 2) % 4
-		grid[x][y][0].append(dir_i)
-		grid[x][y][1][dir_i] = True
+		if tools.is_valid_coords(x, y):
+			dir_i = (dir_i + 2) % 4
+			grid[x][y][0].append(dir_i)
+			grid[x][y][1][dir_i] = True
 
 def exploration_traverse(args):
 	d_x, d_y, heading = args
@@ -73,15 +81,43 @@ def exploration_traverse(args):
 		heading = dir_i
 	return cell_data, child_workers
 
-def add_new_available_dirs(x, y, grid, new_available_dirs):
+def add_new_available_dirs(x, y, new_grid, new_available_dirs):
 	for dir_i in get_available_dirs():
-		if not grid[x][y][1][dir_i]:
-			update_grid(x, y, dir_i, grid)
+		if not new_grid[x][y][1][dir_i]:
+			update_grid(x, y, dir_i, new_grid)
 			new_available_dirs.append((x, y, dir_i))
 
-def bfs_goto(to_x, to_y, grid, new_available_dirs):
-	start_coords = (get_pos_x(), get_pos_y())
-	if start_coords == (to_x, to_y):
+def bfs_check(start_x, start_y, end_x, end_y, old_grid, center_set):
+	start_coords = (start_x, start_y)
+	end_coords = (end_x, end_y)
+	if start_coords in center_set:
+		return start_coords == end_coords
+
+	visited = {start_coords}
+	queue = [start_coords]
+	i = 0
+	while i < len(queue):
+		x, y = queue[i]
+		i += 1
+		dirs = old_grid[x][y][0]
+		for dir_i in dirs:
+			dir = directions[dir_i]
+			next_x = x + dir[0]
+			next_y = y + dir[1]
+			next_coords = (next_x, next_y)
+			if next_coords in visited:
+				continue
+			visited.add(next_coords)
+			queue.append(next_coords)
+
+			if next_coords in center_set:
+				return next_coords == end_coords
+	print("bfs_check", 0 / 0)
+
+def bfs_goto(start_x, start_y, end_x, end_y, new_grid, new_available_dirs):
+	start_coords = (start_x, start_y)
+	end_coords = (end_x, end_y)
+	if start_coords == end_coords:
 		return
 
 	path = {}
@@ -91,7 +127,7 @@ def bfs_goto(to_x, to_y, grid, new_available_dirs):
 	while i < len(queue):
 		x, y = queue[i]
 		i += 1
-		dirs = grid[x][y][0]
+		dirs = new_grid[x][y][0]
 		for dir_i in dirs:
 			dir = directions[dir_i]
 			next_x = x + dir[0]
@@ -102,8 +138,8 @@ def bfs_goto(to_x, to_y, grid, new_available_dirs):
 			path[next_coords] = (x, y)
 			visited.add(next_coords)
 			queue.append(next_coords)
-			if next_coords == (to_x, to_y):
-				coords = (to_x, to_y)
+			if next_coords == end_coords:
+				coords = end_coords
 				steps = []
 				while coords != start_coords:
 					next_coords = path[coords]
@@ -116,39 +152,41 @@ def bfs_goto(to_x, to_y, grid, new_available_dirs):
 					drone.relative_goto(d_x, d_y, False)
 					x += d_x
 					y += d_y
-					add_new_available_dirs(x, y, grid, new_available_dirs)
+					add_new_available_dirs(x, y, new_grid, new_available_dirs)
 				return
 
 def exploitation_traverse(args):
-	start_x, end_x, start_y, end_y, grid = args
-	mid_x = (start_x + end_x) // 2
-	mid_y = (start_y + end_y) // 2
+	mid_x, mid_y, center_set, old_grid = args
 	substance = calc_maze_quantity()
-	
+	new_grid = copy_grid(old_grid)
+
 	start_time = get_time()
 	new_available_dirs = []
+	skip_treasure_coords = None
 	stop_flag = False
 	while True:
-		value = measure()
+		treasure_coords = measure()
 		if (
-			value == None or 
-			len(value) != 2 or 
+			treasure_coords == None or 
+			len(treasure_coords) != 2 or 
 			get_time() - start_time > iteration_seconds
 		):
 			break
-		x, y = value
-		if not (start_x <= x <= end_x and start_y <= y <= end_y):
-			bfs_goto(mid_x, mid_y, grid, new_available_dirs)
+		if treasure_coords == skip_treasure_coords:
 			continue
-		bfs_goto(x, y, grid, new_available_dirs)
-		if stop_flag:
-			ops.safe_harvest()
-			break
-
-		gold_before = num_items(Items.Gold)
-		use_item(Items.Weird_Substance, substance)
-		gold_after = num_items(Items.Gold)
-		stop_flag = (gold_before == gold_after)
+		treasure_x, treasure_y = treasure_coords
+		if bfs_check(treasure_x, treasure_y, mid_x, mid_y, old_grid, center_set):
+			bfs_goto(get_pos_x(), get_pos_y(), treasure_x, treasure_y, new_grid, new_available_dirs)
+			if stop_flag:
+				ops.safe_harvest()
+				break
+			gold_before = num_items(Items.Gold)
+			use_item(Items.Weird_Substance, substance)
+			gold_after = num_items(Items.Gold)
+			stop_flag = (gold_before == gold_after)
+		else:
+			skip_treasure_coords = treasure_coords
+			bfs_goto(get_pos_x(), get_pos_y(), mid_x, mid_y, new_grid, new_available_dirs)	
 	return stop_flag, new_available_dirs
 
 def run():
@@ -172,8 +210,18 @@ def run():
 		for child_result in child_results:
 			results_stack.append(child_result)
 
-	while True:
-		args_list = tools.generate_subgrids(state.grid_size, block_width, block_height, grid)
+	subgrids = tools.generate_subgrids(state.grid_size, block_width, block_height)
+	args_list = []
+	center_set = set()
+	for start_x, end_x, start_y, end_y in subgrids:
+		mid_x = (start_x + end_x) // 2
+		mid_y = (start_y + end_y) // 2
+		center_set.add((mid_x, mid_y))
+		args_list.append([mid_x, mid_y, center_set, None])
+
+	while True: 
+		for args in args_list:
+			args[3] = grid
 		results = strategy.run_multiworker(exploitation_traverse, args_list, True)
 		for stop_flag, new_available_dirs in results:
 			if stop_flag:
