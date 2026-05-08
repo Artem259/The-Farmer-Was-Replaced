@@ -30,3 +30,19 @@ def generate_subgrids(grid_size, block_width, block_height, data=None):
 			else:
 				subgrids.append((start_x, end_x, start_y, end_y))
 	return subgrids
+
+def generate_grid_iteration(
+	start_x=0, 
+	end_x=state.grid_size - 1, 
+	start_y=0, 
+	end_y=state.grid_size - 1
+):
+	path = []
+	for y in range(end_y, start_y - 1, -1):
+		if (end_y - y) % 2 == 0:
+			row_iterator = range(start_x, end_x + 1)
+		else:
+			row_iterator = range(end_x, start_x - 1, -1)
+		for x in row_iterator:
+			path.append((x, y))
+	return path

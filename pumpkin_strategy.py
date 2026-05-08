@@ -9,13 +9,8 @@ block_height = 8
 
 def run_worker(args):
 	start_x, end_x, start_y, end_y = args
-	drone.goto(start_x, start_y)
 
-	queue = []
-	for y in range(start_y, end_y + 1):
-		for x in range(start_x, end_x + 1):
-			queue.append((x, y))
-
+	queue = tools.generate_grid_iteration(start_x, end_x, start_y, end_y)
 	while queue:
 		new_queue = []
 		for i in range(len(queue)):

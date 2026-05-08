@@ -11,7 +11,6 @@ block_height = 8
 
 def run_plant_worker(args):
 	start_x, end_x, start_y, end_y = args
-	drone.goto(start_x, start_y)
 
 	buckets = []
 	for _ in range(max_petals - min_petals + 1):
