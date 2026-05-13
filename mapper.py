@@ -25,6 +25,9 @@ def item_to_strategy(item):
 	if item == Items.Gold:
 		import maze_strategy
 		return maze_strategy
+	if item == Items.Bone:
+		import dinosaur_strategy
+		return dinosaur_strategy
 	print("item_to_strategy", 0 / 0)
 
 def entity_to_plant_action(entity):

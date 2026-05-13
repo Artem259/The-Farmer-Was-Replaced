@@ -10,6 +10,11 @@ def waitfor_safe_harvest():
 		pass
 	return True
 
+def clean_harvest():
+	waitfor_safe_harvest()
+	if get_ground_type() != Grounds.Soil:
+		till()
+
 def _plant_grass():
 	return plant(Entities.Grass)
 

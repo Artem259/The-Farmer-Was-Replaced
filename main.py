@@ -8,6 +8,7 @@ quick_print("--------------------")
 
 cycles = 1
 
+set_world_size(state.grid_size)
 clear()
 cached_quantities = {}
 cycle = cycles
@@ -29,7 +30,14 @@ while True:
 		if strategy == None:
 			quick_print("Target item not found!")
 			break
-		quick_print(strategy.__name__)
+		quick_print(strategy.__name__, "...")
 
+	start_time = get_time()
 	strategy.run()
 	cycle += 1
+	run_seconds = get_time() - start_time
+	run_minutes, run_seconds = run_seconds // 60, run_seconds % 60
+	if run_minutes > 0:
+		quick_print(cycle, "/", cycles, ",", run_minutes, "m", run_seconds, "s")
+	else:
+		quick_print(cycle, "/", cycles, ",", run_seconds, "s")

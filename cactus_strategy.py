@@ -3,6 +3,11 @@ import ops
 import state
 import strategy
 
+def calc_target_quantity():
+	cells = state.grid_size ** 2
+	cell_cost = (2 ** (num_unlocked(Unlocks.Dinosaurs)))
+	return 2 * cells * cell_cost
+
 def sort_line(go_forward, go_backward, get_pos, prev_dir, next_dir):
 	start = 0
 	end = state.grid_size - 1
