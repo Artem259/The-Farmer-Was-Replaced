@@ -7,7 +7,7 @@ import tools
 
 block_width = 4
 block_height = 8
-shortcuts_limit_ratio = 0.5
+shortcuts_limit_ratio = 0.4
 tail_dist_limit = 3
 
 grid_size = state.grid_size ** 2
@@ -77,17 +77,19 @@ def run():
 	x = get_pos_x()
 	y = get_pos_y()
 	stop_flag = False
-	snake = [(x, y)]
-	while len(snake) < grid_size and not stop_flag:
+	snake_len = 1
+	tail_x, tail_y = x, y
+	snake_grid = tools.generate_matrix(state.grid_size, None)
+	while snake_len < grid_size and not stop_flag:
 		apple_x, apple_y = measure()
 		apple_id = grid[apple_x][apple_y][0]
 		eaten = True
 		while not (x == apple_x and y == apple_y):
 			id, base_dir_i, shortcuts = grid[x][y]
-			tail_id = grid[snake[0][0]][snake[0][1]][0]
+			tail_id = grid[tail_x][tail_y][0]
 
 			dir = None
-			if len(snake) <= shortcuts_limit_ratio * grid_size:
+			if snake_len <= shortcuts_limit_ratio * grid_size:
 				best_shortcut_length = grid_size
 				for dir_i, adj_id in shortcuts:
 					d = directions[dir_i]
@@ -101,13 +103,17 @@ def run():
 				dir = directions[base_dir_i]
 
 			goto_result = drone.relative_goto(dir[0], dir[1], False)
+			snake_grid[x][y] = dir
 			x += dir[0]
 			y += dir[1]
-			if not eaten:
-				snake.pop(0)
-			snake.append((x, y))
+			if eaten:
+				snake_len += 1
+			else:
+				tail_dir = snake_grid[tail_x][tail_y]
+				tail_x += tail_dir[0]
+				tail_y += tail_dir[1]
 			if not goto_result:
-				if len(snake) < grid_size:
+				if snake_len < grid_size:
 					stop_flag = True
 				break
 			eaten = False
