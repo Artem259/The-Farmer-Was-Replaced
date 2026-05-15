@@ -13,11 +13,18 @@ def generate_matrix(size, value, callable=False):
 		matrix.append(row)
 	return matrix
 
-def is_valid_coord(coord):
-	return 0 <= coord < state.grid_size
+def is_valid_coord(coord, min_coord=0, max_coord=state.grid_size-1):
+	return min_coord <= coord <= max_coord
 
-def is_valid_coords(coord1, coord2):
-	return is_valid_coord(coord1) and is_valid_coord(coord2)
+def is_valid_coords(
+	coord1, coord2, 
+	min_coord_1=0, max_coord_1=state.grid_size-1, 
+	min_coord_2=0, max_coord_2=state.grid_size-1
+):
+	return (
+		is_valid_coord(coord1, min_coord_1, max_coord_1) and 
+		is_valid_coord(coord2, min_coord_2, max_coord_2)
+	)
 
 def generate_subgrids(grid_size, block_width, block_height, data=None):
 	subgrids = []

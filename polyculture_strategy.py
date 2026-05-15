@@ -2,39 +2,54 @@ import drone
 import eyes
 import ops
 import state
+import strategy
 import tools
 
+block_width = 4
+block_height = 8
 entity_priorities = [Entities.Carrot, Entities.Tree, Entities.Bush, Entities.Grass]
 search_limit = 3
-entities_limit_rate = 0.1
+entities_limit_rate = 0.5
 
-grid_size = state.grid_size ** 2
+def run_worker(args):
+	if len(args) == 5:
+		start_x, end_x, start_y, end_y, before_harvest_hook = args
+	else:
+		start_x, end_x, start_y, end_y = args
+		before_harvest_hook = None
+	drone.goto((start_x + end_x) // 2, (start_y + end_y) // 2)
 
-def check_plant_efficiency(entity, x, y, grid):
-	if entity == Entities.Tree:
-		return Entities.Tree not in eyes.adjacent_values(grid, x, y)
-	return True
+	width = end_x - start_x + 1
+	height = end_y - start_y + 1
+	grid_size = width * height
 
-def check_plant(entity, x, y, grid):
-	return (
-		tools.is_valid_coords(x, y) and 
-		grid[x][y] == None and 
-		check_plant_efficiency(entity, x, y, grid)
-	)
+	grid = tools.generate_matrix(max(width, height), None)
 
-def run(before_harvest_hook=None):
-	grid = tools.generate_matrix(state.grid_size, None)
-	def find_closest_efficient(start_x, start_y, entity):
+	def check_plant_efficiency(entity, x, y):
+		if entity == Entities.Tree:
+			if x == start_x or x == end_x or y == start_y or y == end_y:
+				return False
+			return Entities.Tree not in eyes.adjacent_values(grid, x - start_x, y - start_y)
+		return True
+
+	def check_plant(entity, x, y):
+		return (
+			tools.is_valid_coords(x, y, start_x, end_x, start_y, end_y) and 
+			grid[x - start_x][y - start_y] == None and 
+			check_plant_efficiency(entity, x, y)
+		)
+
+	def find_closest_efficient(center_x, center_y, entity):
 		dirs = ((1, -1), (-1, -1), (-1, 1), (1, 1))
 		for offset in range(1, search_limit + 1):
-			x = start_x
-			y = start_y + offset
+			x = center_x
+			y = center_y + offset
 			for dir in dirs:
 				for _ in range(offset):
-					if check_plant(entity, x, y, grid):
+					if check_plant(entity, x, y):
 						return x, y
-					x = (x + dir[0]) % state.grid_size
-					y = (y + dir[1]) % state.grid_size
+					x = x + dir[0]
+					y = y + dir[1]
 		return None
 
 	queue = []
@@ -48,15 +63,15 @@ def run(before_harvest_hook=None):
 			if not ops.safe_plant(entity):
 				unsuccessful_entity = entity
 				for try_entity in entity_priorities:
-					if check_plant(try_entity, x, y, grid) and ops.safe_plant(try_entity):
+					if check_plant(try_entity, x, y) and ops.safe_plant(try_entity):
 						entity = try_entity
 						break
 				if entity == unsuccessful_entity:
 					break
 			queue.append((x, y))
-			grid[x][y] = entity
+			grid[x - start_x][y - start_y] = entity
 			entity, (x, y) = get_companion()
-			if not check_plant(entity, x, y, grid):
+			if not check_plant(entity, x, y):
 				break
 		if len(queue) > entities_limit_rate * grid_size:
 			break
@@ -73,3 +88,7 @@ def run(before_harvest_hook=None):
 		if before_harvest_hook != None:
 			before_harvest_hook()
 		ops.waitfor_safe_harvest()
+
+def run(before_harvest_hook=None):
+	args_list = tools.generate_subgrids(state.grid_size, block_width, block_height, before_harvest_hook)
+	strategy.run_multiworker(run_worker, args_list, 0)
