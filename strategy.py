@@ -25,7 +25,7 @@ def spawn_workers(run_function, args_list):
 	for args in args_list:
 		worker = spawn_drone(run_function, args)
 		if worker == None:
-			print("spwan_workers", 0 / 0)
+			print("spawn_workers", 0 / 0)
 		workers.append(worker)
 	return workers
 

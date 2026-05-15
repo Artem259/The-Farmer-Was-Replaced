@@ -3,7 +3,9 @@ import parameters
 import state
 
 quick_print("--------------------")
-quick_print("grid_size =", state.grid_size)
+quick_print("grid_size        =", state.grid_size)
+quick_print("base_water_level =", state.base_water_level)
+quick_print("min_water_level  =", state.min_water_level)
 quick_print("--------------------")
 
 cycles = 1

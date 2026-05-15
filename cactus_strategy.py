@@ -34,7 +34,7 @@ def run_horizontal_worker(args):
 	y = args[0]
 
 	def plant_action():
-		ops.safe_plant(Entities.Cactus)
+		ops.safe_plant(Entities.Cactus, False)
 
 	strategy.iterate_grid(
 		(ops.waitfor_safe_harvest, plant_action), 0, state.grid_size - 1, y, y

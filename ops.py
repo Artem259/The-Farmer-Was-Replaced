@@ -1,4 +1,5 @@
 import mapper
+import state
 
 def safe_harvest():
 	if can_harvest():
@@ -44,6 +45,15 @@ def _plant_sunflower():
 		till()
 	return plant(Entities.Sunflower)
 
-def safe_plant(entity):
+def safe_plant(entity, use_water=True):
 	plant_action = mapper.entity_to_plant_action(entity)
-	return plant_action()
+	if not plant_action():
+		return False
+	if use_water:
+		while (
+			num_items(Items.Water) > 100 and 
+			get_water() < state.min_water_level
+		):
+			if not use_item(Items.Water):
+				break
+	return True

@@ -192,8 +192,8 @@ def exploitation_traverse(args):
 def run():
 	drone.goto_bottom_left()
 
-	while not ops.safe_plant(Entities.Bush):
-		pass
+	if not ops.safe_plant(Entities.Bush, False):
+		print("ops.safe_plant", 0 / 0)
 	substance = calc_maze_quantity()
 	use_item(Items.Weird_Substance, substance)
 
