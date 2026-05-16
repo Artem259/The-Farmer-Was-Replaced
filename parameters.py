@@ -11,3 +11,8 @@ ITEMS = {
 	3: (Items.Power,              100000),
 	7: (Items.Bone,                 None),
 }
+
+USE_WATER = True
+MIN_WATER_LEVEL = 0.0
+
+USE_FERTILIZER = False
