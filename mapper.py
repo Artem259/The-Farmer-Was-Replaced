@@ -2,11 +2,11 @@ import ops
 
 def item_to_strategy(item):
 	if item == Items.Hay:
-		import grass_strategy
-		return grass_strategy
+		import polyculture_strategy
+		return polyculture_strategy
 	if item == Items.Wood:
-		import tree_strategy
-		return tree_strategy
+		import polyculture_strategy
+		return polyculture_strategy
 	if item == Items.Carrot:
 		import polyculture_strategy
 		return polyculture_strategy
@@ -29,6 +29,17 @@ def item_to_strategy(item):
 		import dinosaur_strategy
 		return dinosaur_strategy
 	print("item_to_strategy", 0 / 0)
+
+def item_to_entities(item):
+	if item == Items.Hay:
+		return [Entities.Grass]
+	if item == Items.Wood:
+		return [Entities.Tree, Entities.Bush]
+	if item == Items.Carrot:
+		return [Entities.Carrot]
+	if item == Items.Weird_Substance:
+		return []
+	print("item_to_entities", 0 / 0)
 
 def entity_to_plant_action(entity):
 	if entity == Entities.Grass:

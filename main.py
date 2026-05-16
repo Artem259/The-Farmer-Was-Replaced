@@ -27,12 +27,16 @@ while True:
 					quick_print(item, "=>", quantity)
 					cached_quantities[item] = quantity
 			if quantity == None or num_items(item) < quantity:
+				if quantity == None:
+					quantity = (10 ** 12) * num_items(item)
 				strategy = mapper.item_to_strategy(item)
 				break
 		if strategy == None:
 			quick_print("Target item not found!")
 			break
-		quick_print(strategy.__name__, "...")
+		state.target_item = item
+		state.target_quantity = quantity
+		quick_print(strategy.__name__, "(", item, "=>", quantity, ")")
 
 	start_time = get_time()
 	strategy.run()
