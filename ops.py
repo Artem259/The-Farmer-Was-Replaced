@@ -17,13 +17,13 @@ def safe_harvest(use_fertilizer=True):
 		return harvest()
 	return False
 
-def waitfor_safe_harvest():
-	while not safe_harvest():
+def waitfor_safe_harvest(use_fertilizer=True):
+	while not safe_harvest(use_fertilizer):
 		pass
 	return True
 
-def clean_harvest():
-	waitfor_safe_harvest()
+def clean_harvest(use_fertilizer=True):
+	waitfor_safe_harvest(use_fertilizer)
 	if get_ground_type() != Grounds.Soil:
 		till()
 

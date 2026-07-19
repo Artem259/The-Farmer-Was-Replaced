@@ -1,18 +1,18 @@
 MAX_GRID_SIZE = -1
 
 ITEMS = {
-	1: (Items.Hay,               1000000),
-	0: (Items.Wood,              1000000),
-	2: (Items.Carrot,            1000000),
-	4: (Items.Pumpkin,           1000000),
-	5: (Items.Cactus,                 -1),
-	6: (Items.Weird_Substance,        -1),
-	8: (Items.Gold,              1000000),
-	3: (Items.Power,              100000),
-	7: (Items.Bone,                 None),
+	1: (Items.Hay,               0),
+	0: (Items.Wood,              10**9, 0),#5*10**9),
+	2: (Items.Carrot,            0),#5*200*10**6),
+	4: (Items.Pumpkin,           0),
+	5: (Items.Cactus,            0),
+	6: (Items.Weird_Substance,   0),
+	8: (Items.Gold,              0),
+	3: (Items.Power,             0),
+	7: (Items.Bone,              0),
 }
 
 USE_WATER = True
-MIN_WATER_LEVEL = 0.0
+MIN_WATER_LEVEL = 0.8
 
-USE_FERTILIZER = False
+USE_FERTILIZER = True
